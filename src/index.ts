@@ -13,6 +13,7 @@ export { SyncEngine } from './core/SyncEngine';
 // Converter exports
 export { BaseConverter } from './converters/BaseConverter';
 export { ClaudeDesktopConverter } from './converters/ClaudeDesktopConverter';
+export { ClaudeCodeConverter } from './converters/ClaudeCodeConverter';
 export { ClineConverter } from './converters/ClineConverter';
 export { RooCodeConverter } from './converters/RooCodeConverter';
 export { CursorConverter } from './converters/CursorConverter';
@@ -36,6 +37,7 @@ export type {
   
   // Tool-specific configs
   ClaudeDesktopConfig,
+  ClaudeCodeConfig,
   ClineConfig,
   CursorConfig,
   VSCodeConfig,

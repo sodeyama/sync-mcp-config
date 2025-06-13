@@ -67,6 +67,7 @@ export class PathResolver {
       roo: '~/Library/Application Support/Code/User/globalStorage/rooveterinaryinc.roo-cline/settings/mcp_settings.json',
       cursor: '~/.cursor/mcp.json',
       vscode: '~/Library/Application Support/Code/User/settings.json',
+      'claude-code': '~/.claude/settings.json',
     };
 
     const configPath = configPaths[tool];

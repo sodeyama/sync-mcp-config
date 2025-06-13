@@ -45,7 +45,7 @@ program
 program
   .command('sync')
   .description('Sync MCP settings to all or specific tools')
-  .option('-t, --tool <tools...>', 'Sync only specific tools (claude, cline, roo, cursor, vscode)')
+  .option('-t, --tool <tools...>', 'Sync only specific tools (claude, claude-code, cline, roo, cursor, vscode)')
   .option('-s, --source <tool>', 'Use specific tool as source instead of master config')
   .option('-d, --dry-run', 'Show what would be changed without making actual changes')
   .option('--skip-backup', 'Skip creating backups before sync')
@@ -118,7 +118,7 @@ program
       const backupManager = new BackupManager();
       await backupManager.initialize();
       
-      const tools = options.tool as ToolType[] || ['claude', 'cline', 'roo', 'cursor', 'vscode'] as ToolType[];
+      const tools = options.tool as ToolType[] || ['claude', 'claude-code', 'cline', 'roo', 'cursor', 'vscode'] as ToolType[];
       
       console.log(chalk.blue('📦 Creating backups...'));
       

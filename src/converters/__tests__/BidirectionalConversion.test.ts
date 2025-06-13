@@ -1,4 +1,5 @@
 import { ClaudeDesktopConverter } from '../ClaudeDesktopConverter';
+import { ClaudeCodeConverter } from '../ClaudeCodeConverter';
 import { ClineConverter } from '../ClineConverter';
 import { RooCodeConverter } from '../RooCodeConverter';
 import { CursorConverter } from '../CursorConverter';
@@ -8,6 +9,7 @@ import type { MasterConfig } from '../../types';
 describe('Bidirectional Conversion Tests', () => {
   const converters = [
     { name: 'ClaudeDesktop', converter: new ClaudeDesktopConverter() },
+    { name: 'ClaudeCode', converter: new ClaudeCodeConverter() },
     { name: 'Cline', converter: new ClineConverter() },
     { name: 'RooCode', converter: new RooCodeConverter() },
     { name: 'Cursor', converter: new CursorConverter() },

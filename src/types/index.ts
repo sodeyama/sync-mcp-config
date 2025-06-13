@@ -75,7 +75,7 @@ export interface MasterConfig {
 /**
  * ツールタイプ
  */
-export type ToolType = 'claude' | 'cline' | 'roo' | 'cursor' | 'vscode';
+export type ToolType = 'claude' | 'cline' | 'roo' | 'cursor' | 'vscode' | 'claude-code';
 
 /**
  * ツール情報
@@ -105,6 +105,11 @@ export interface ClaudeDesktopConfig {
 export interface ClineConfig {
   mcpServers: Record<string, MCPServerConfig>;
 }
+
+/**
+ * Claude Code設定（Claude Desktopと同じフォーマット）
+ */
+export type ClaudeCodeConfig = ClaudeDesktopConfig;
 
 /**
  * Cursor設定

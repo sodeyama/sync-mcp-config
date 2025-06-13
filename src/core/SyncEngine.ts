@@ -1,6 +1,7 @@
 import type { ConfigManager } from './ConfigManager';
 import type { BackupManager } from './BackupManager';
 import { ClaudeDesktopConverter } from '../converters/ClaudeDesktopConverter';
+import { ClaudeCodeConverter } from '../converters/ClaudeCodeConverter';
 import { ClineConverter } from '../converters/ClineConverter';
 import { RooCodeConverter } from '../converters/RooCodeConverter';
 import { CursorConverter } from '../converters/CursorConverter';
@@ -29,6 +30,7 @@ export class SyncEngine {
     // 変換器を初期化
     this.converters = new Map<ToolType, BaseConverter>();
     this.converters.set('claude', new ClaudeDesktopConverter());
+    this.converters.set('claude-code', new ClaudeCodeConverter());
     this.converters.set('cline', new ClineConverter());
     this.converters.set('roo', new RooCodeConverter());
     this.converters.set('cursor', new CursorConverter());
