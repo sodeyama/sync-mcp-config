@@ -112,7 +112,7 @@ export class BackupManager {
   async listBackups(tool?: ToolType): Promise<BackupInfo[]> {
     try {
       const backups: BackupInfo[] = [];
-      const tools = tool ? [tool] : ['claude', 'cline', 'roo', 'cursor', 'vscode'] as ToolType[];
+      const tools = tool ? [tool] : ['claude', 'cline', 'roo', 'cursor', 'vscode', 'claude-code'] as ToolType[];
 
       for (const t of tools) {
         const toolBackupDir = path.join(this.backupDir, t);
