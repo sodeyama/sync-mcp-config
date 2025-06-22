@@ -235,5 +235,64 @@ describe('ClaudeCodeConverter', () => {
 
       expect(parsedContent.mcpServers).toEqual(newConfig.mcpServers);
     });
+
+    it('should preserve other settings when writing config', async () => {
+      const testConfigPath = path.join(TEST_TEMP_DIR, 'claude_code_preserve_settings.json');
+      const existingConfig = {
+        globalShortcut: 'Cmd+Shift+C',
+        theme: 'dark',
+        autoUpdate: true,
+        mcpServers: {
+          'old-server': {
+            command: 'node',
+            args: ['old.js'],
+          },
+        },
+        someOtherSetting: {
+          nested: {
+            value: 'should be preserved',
+          },
+        },
+      };
+
+      // 既存の設定ファイルを作成
+      fs.mkdirSync(path.dirname(testConfigPath), { recursive: true });
+      fs.writeFileSync(testConfigPath, JSON.stringify(existingConfig, null, 2));
+
+      // BaseConverterのconfigPathをモック
+      Object.defineProperty(converter, 'configPath', {
+        get: () => testConfigPath,
+        configurable: true,
+      });
+
+      // 新しいMCPサーバー設定のみを書き込む
+      const newConfig: ClaudeCodeConfig = {
+        mcpServers: {
+          'new-server': {
+            command: 'python',
+            args: ['new.py'],
+          },
+        },
+      };
+
+      await converter.writeConfig(newConfig);
+
+      // 書き込まれた内容を確認
+      const writtenContent = fs.readFileSync(testConfigPath, 'utf-8');
+      const parsedContent = JSON.parse(writtenContent);
+
+      // MCPサーバーは更新されている
+      expect(parsedContent.mcpServers).toEqual(newConfig.mcpServers);
+      
+      // 他の設定は保持されている
+      expect(parsedContent.globalShortcut).toBe('Cmd+Shift+C');
+      expect(parsedContent.theme).toBe('dark');
+      expect(parsedContent.autoUpdate).toBe(true);
+      expect(parsedContent.someOtherSetting).toEqual({
+        nested: {
+          value: 'should be preserved',
+        },
+      });
+    });
   });
 });

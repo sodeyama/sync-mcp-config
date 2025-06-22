@@ -5,6 +5,7 @@
 ## 対応ツール
 
 - **Claude Desktop**
+- **Claude Code**
 - **Cline**
 - **Roo Code**
 - **Cursor**
@@ -125,6 +126,7 @@ mcp-sync edit
 - **バックアップ**: `~/.mcp/backups/`
 - **各ツールの設定**:
   - Claude Desktop: `~/Library/Application Support/Claude/claude_desktop_config.json`
+  - Claude Code: `~/.claude.json` (mcpServersセクション)
   - Cline: `~/Library/Application Support/Code/User/globalStorage/saoudrizwan.claude-dev/settings/cline_mcp_settings.json`
   - Roo Code: `~/Library/Application Support/Code/User/globalStorage/rooveterinaryinc.roo-cline/settings/mcp_settings.json`
   - Cursor: `~/.cursor/mcp.json`
