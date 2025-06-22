@@ -26,7 +26,7 @@
 npm install -g mcp-sync
 
 # または、リポジトリをクローンして直接使用
-git clone https://github.com/yourusername/sync-mcp-config.git
+git clone https://github.com/sodeyama/sync-mcp-config.git
 cd sync-mcp-config
 npm install
 npm link
@@ -56,6 +56,8 @@ mcp-sync sync
 
 ```bash
 mcp-sync sync --tool claude cline roo
+# または claude-code も含める場合
+mcp-sync sync --tool claude claude-code cline
 ```
 
 #### 特定のツールから他のツールに同期
@@ -68,6 +70,12 @@ mcp-sync sync --source claude
 
 ```bash
 mcp-sync sync --dry-run
+```
+
+#### 強制同期（競合を無視）
+
+```bash
+mcp-sync sync --force
 ```
 
 ### バックアップ
@@ -112,6 +120,12 @@ mcp-sync restore --tool claude --list
 mcp-sync status
 ```
 
+詳細なログを表示する場合：
+
+```bash
+mcp-sync status --verbose
+```
+
 ### 設定編集
 
 マスター設定ファイルをエディタで開く：
@@ -126,11 +140,11 @@ mcp-sync edit
 - **バックアップ**: `~/.mcp/backups/`
 - **各ツールの設定**:
   - Claude Desktop: `~/Library/Application Support/Claude/claude_desktop_config.json`
-  - Claude Code: `~/.claude.json` (mcpServersセクション)
+  - Claude Code: `~/.claude.json` (mcpServersセクション) ※他の設定と共有されるファイルのため、既存設定は保持されます
   - Cline: `~/Library/Application Support/Code/User/globalStorage/saoudrizwan.claude-dev/settings/cline_mcp_settings.json`
   - Roo Code: `~/Library/Application Support/Code/User/globalStorage/rooveterinaryinc.roo-cline/settings/mcp_settings.json`
   - Cursor: `~/.cursor/mcp.json`
-  - VS Code: `~/Library/Application Support/Code/User/settings.json`
+  - VS Code: `~/Library/Application Support/Code/User/settings.json` (mcp.serversセクション)
 
 ## マスター設定ファイルの形式
 
@@ -162,22 +176,27 @@ mcp-sync edit
 }
 ```
 
-## 高度な使用方法
+## コマンドラインオプション
 
-### プログラマティックAPI
+### グローバルオプション
 
-```typescript
-import { createSyncEngine, syncAll, syncFrom } from 'mcp-sync';
+- `--verbose`, `-v`: 詳細なログを表示
+- `--quiet`, `-q`: エラー以外のメッセージを抑制
 
-// 全ツールに同期
-await syncAll({ dryRun: false });
+### 各コマンドのオプション
 
-// 特定のツールから同期
-await syncFrom('claude', {
-  tools: ['cline', 'roo'],
-  skipBackup: false
-});
-```
+- **init**: `--force` (既存の設定を上書き)
+- **sync**: 
+  - `--tool <tools...>` (特定のツールのみ同期)
+  - `--source <tool>` (マスターではなく特定のツールから同期)
+  - `--dry-run` (変更をプレビュー)
+  - `--skip-backup` (バックアップをスキップ)
+  - `--force` (競合を無視して強制同期)
+- **backup**: `--tool <tools...>` (特定のツールのみバックアップ)
+- **restore**: 
+  - `--tool <tool>` (必須：復元するツール)
+  - `--id <backupId>` (特定のバックアップID)
+  - `--list` (利用可能なバックアップを一覧表示)
 
 ## トラブルシューティング
 
@@ -205,6 +224,10 @@ chmod 644 ~/Library/Application\ Support/Claude/claude_desktop_config.json
 mcp-sync sync --force
 ```
 
+### Claude Codeの設定について
+
+Claude Codeは`~/.claude.json`ファイルの`mcpServers`セクションにMCP設定を保存します。このファイルには他の設定（globalShortcut、themeなど）も含まれているため、MCP Syncは`mcpServers`セクションのみを更新し、他の設定は保持します。
+
 ## 開発
 
 ### ビルド
@@ -216,7 +239,17 @@ npm run build
 ### テスト
 
 ```bash
+# 全テストを実行
 npm test
+
+# ウォッチモードでテスト
+npm run test:watch
+
+# カバレッジレポート付きでテスト
+npm run test:coverage
+
+# 特定のテストファイルのみ実行
+npm test -- path/to/test.spec.ts
 ```
 
 ### 開発モード
@@ -225,10 +258,20 @@ npm test
 npm run dev
 ```
 
+### コード品質
+
+```bash
+# Lintを実行
+npm run lint
+
+# コードフォーマット
+npm run format
+```
+
 ## ライセンス
 
 MIT License
 
 ## 貢献
 
-プルリクエストを歓迎します！バグ報告や機能リクエストは[Issues](https://github.com/yourusername/sync-mcp-config/issues)までお願いします。
+プルリクエストを歓迎します！バグ報告や機能リクエストは[Issues](https://github.com/sodeyama/sync-mcp-config/issues)までお願いします。
